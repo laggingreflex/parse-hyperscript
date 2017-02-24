@@ -30,7 +30,17 @@ function parse (args) {
 
     if (selector.classes !== '') {
       if (attrs.class) {
-        attrs.class = `${attrs.class} ${selector.classes}`
+        if (attrs.class instanceof Array) {
+          attrs.class.push.apply(attrs.class, selector.classes.split(/[ ]+/g))
+        } else if (typeof attrs.class === 'string') {
+          attrs.class += ' ' + selector.classes
+        } else if (typeof attrs.class === 'object') {
+          selector.classes.split(/[ ]+/g).forEach(className => {
+            if (!(className in attrs.class)) {
+              attrs.class[className] = true;
+            }
+          })
+        }
       } else {
         attrs.class = selector.classes
       }
