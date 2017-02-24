@@ -16,7 +16,7 @@ test('parse selector', (t) => {
 
 test('parse selector class with attributes', (t) => {
   const obj = parse(['p.italic', { class: 'bold' }])
-  t.equal(obj.attrs.class, 'bold italic')
+  t.equal(obj.attrs.class, 'italic bold')
   t.end()
 })
 

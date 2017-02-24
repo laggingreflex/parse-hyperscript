@@ -31,15 +31,18 @@ function parse (args) {
     if (selector.classes !== '') {
       if (attrs.class) {
         if (attrs.class instanceof Array) {
-          attrs.class.push.apply(attrs.class, selector.classes.split(/[ ]+/g))
+          attrs.class = selector.classes.split(/[ ]+/g).concat(attrs.class)
         } else if (typeof attrs.class === 'string') {
-          attrs.class += ' ' + selector.classes
+          attrs.class = selector.classes + ' ' + attrs.class
         } else if (typeof attrs.class === 'object') {
+          const newClassesObj = {}
           selector.classes.split(/[ ]+/g).forEach(className => {
-            if (!(className in attrs.class)) {
-              attrs.class[className] = true;
-            }
+            newClassesObj[className] = true
           })
+          Object.keys(attrs.class).forEach(existing => {
+            newClassesObj[existing] = attrs.class[existing]
+          })
+          attrs.class = newClassesObj
         }
       } else {
         attrs.class = selector.classes
