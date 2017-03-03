@@ -14,9 +14,21 @@ test('parse selector', (t) => {
   t.end()
 })
 
-test('parse selector class with attributes', (t) => {
+test('parse selector class with attributes class as string', (t) => {
   const obj = parse(['p.italic', { class: 'bold' }])
   t.equal(obj.attrs.class, 'italic bold')
+  t.end()
+})
+
+test('parse selector class with attributes class as array', (t) => {
+  const obj = parse(['p.italic', { class: ['bold'] }])
+  t.deepEqual(obj.attrs.class, ['italic', 'bold'])
+  t.end()
+})
+
+test('parse selector class with attributes class as object', (t) => {
+  const obj = parse(['p.italic', { class: {bold: true} }])
+  t.deepEqual(obj.attrs.class, {italic: true, bold: true})
   t.end()
 })
 
